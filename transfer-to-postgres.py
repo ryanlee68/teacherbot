@@ -1,6 +1,6 @@
 import sqlite3, psycopg2
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 import os
 
 sqlitedb = sqlite3.connect('bdaybot.db', detect_types=sqlite3.PARSE_DECLTYPES)
@@ -18,9 +18,9 @@ post_cursor = postgresdb.cursor()
 
 # SQL Command to create TABLE guilds
 create_guilds_table = """CREATE TABLE guilds(
-                        guild_id INT PRIMARY KEY,
-                        announcements_id INT,
-                        role_id INT,
+                        guild_id BIGINT PRIMARY KEY,
+                        announcements_id BIGINT,
+                        role_id BIGINT,
                         today_names_cycle BYTEA,
                         nickname_notice BOOLEAN DEFAULT true
                         )"""
@@ -37,7 +37,7 @@ post_cursor.execute(create_student_data_table)
 
 # SQL Command to create TABLE discord_users
 create_discord_users_table = """CREATE TABLE discord_users(
-                                discord_user_id INT PRIMARY KEY,
+                                discord_user_id BIGINT PRIMARY KEY,
                                 student_id INT UNIQUE,
                                 FOREIGN KEY(student_id) REFERENCES student_data(StuID) ON DELETE CASCADE
                                 )"""
@@ -55,9 +55,9 @@ for discord_users_data in lite_cursor.execute("SELECT * FROM discord_users"):
     # Add data to PostgreSQL
     post_cursor.execute("INSERT INTO discord_users VALUES(%s, %s)", discord_users_data)
 
-for id, in list(lite_cursor.execute("SELECT name FROM my_db.sqlite_master WHERE type='table'"))[3:]:
+for id, in list(lite_cursor.execute("SELECT name FROM sqlite_master WHERE type='table'"))[3:]:
     create_id_table = """CREATE TABLE {}(
-                            discord_user_id INT,
+                            discord_user_id BIGINT,
                             year INT,
                             PRIMARY KEY(discord_user_id, year),
                             FOREIGN KEY(discord_user_id) REFERENCES discord_users(discord_user_id)
