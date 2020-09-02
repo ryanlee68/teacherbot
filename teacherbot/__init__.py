@@ -1,1 +1,1 @@
-from bot import teacherbot
+from bot import bot
