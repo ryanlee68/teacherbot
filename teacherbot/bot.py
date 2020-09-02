@@ -16,21 +16,21 @@ class bot(commands.Bot):
         print('Bot activated')
         self.current_guild = self.get_guild(self.current_guild_id)
         self.current_channel = self.current_guild.get_channel(self.current_channel_id)
-        self.take_attendence.start()
+        self.take_attendance.start()
         self.check_other_tasks.start()
 
     @tasks.loop(seconds=1)
     async def check_other_tasks(self):
-        if not self.take_attendence.is_running():
-            error = self.take_attendence.get_task().exception()
-            print(f"take_attendence() {error!r}")
+        if not self.take_attendance.is_running():
+            error = self.take_attendance.get_task().exception()
+            print(f"take_attendance() {error!r}")
 
     @tasks.loop(hours=24)
-    async def take_attendence(self):
+    async def take_attendance(self):
         # TODO: For now the attendence message
         # will just be basic text but in the future
         # the attendence message should be a nice looking embed
-        print("take_attendence succesfully ran!")
+        print("take_attendance succesfully ran!")
         message = "Take attendence here!"
 
         self.periods = [1, 2, 3, 4, 5]
@@ -70,5 +70,5 @@ class bot(commands.Bot):
     async def close(self):
         print("Stopping the bot!")
         # self.check_other_tasks.stop()
-        # self.take_attendence.stop()
+        # self.take_attendance.stop()
         await super().close()
