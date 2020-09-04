@@ -15,6 +15,8 @@ for table in dir(Base.classes):
         exec(f'{table}=Base.classes.{table}')
 
 if __name__ != '__main__':
+    # Delete imports to avoid naming conflicts
+    # when importing this file
     del automap_base
     del Session
     del URL
