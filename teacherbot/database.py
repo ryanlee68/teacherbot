@@ -9,3 +9,7 @@ Base = automap_base()
 engine = create_engine(URL('postgres', **dotenv_values()))
 Base.prepare(engine, reflect=True)
 session = Session(engine)
+
+for table in dir(Base.classes):
+    if not table.startswith('__'):
+        exec(f'{table}=Base.classes.{table}')
