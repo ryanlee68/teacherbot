@@ -1,4 +1,4 @@
 from discord.ext import commands
 
-class MainCommandsCog(commands.Cog):
+class MainCog(commands.Cog):
     pass
